@@ -229,7 +229,7 @@ FVarDescriptor* lookup_entry(HANDLE proc, uintptr_t fvar_container, std::string 
 	uintptr_t end = read<uintptr_t>(proc, map + 0x8);
 
 	if (entry == end) 
-		return 0;
+		return nullptr;
 
 	end = read<uintptr_t>(proc, container + index);
 
@@ -343,7 +343,7 @@ FVarDescriptor* lookup_entry(HANDLE proc, uintptr_t fvar_container, std::string 
 		}
 
 		if (entry == end) 
-			return 0;
+			return nullptr;
 
 		entry = *(uintptr_t*)(entry_data + 0x8);
 	}
@@ -487,4 +487,5 @@ int main(int argc, const char** argv)
 		set_fvariable_for_all_processes(fix_fvar_name(fvar), value);
 		close_roblox_processes();
 	}
+
 }
