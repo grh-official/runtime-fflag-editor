@@ -15,6 +15,3 @@ runtime fflag editor currently supports 4 types of fast variables: "FFlag", "FIn
 
 # flog addition
 if you prefix a flog value with "F" then runtime fflag editor will also set the second byte of the flog which is used for secondary filtering inside roblox, so to fully enable a flog, you can set the value to "F0xFFFF"
-
-# stealth addition
-since roblox logs running processes, roblox will see the file path and name and if you want to make sure its hidden then rename RuntimeFFlagEditor to "svchost" and run it as administator so it will look like other svchost.exe programs (this may not be fully reliable once fflags controlling additional logging will be enabled)
