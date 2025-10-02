@@ -213,22 +213,22 @@ FVarDescriptor* lookup_entry(HANDLE proc, uintptr_t fvar_container, std::string 
 	uintptr_t map = read<uintptr_t>(proc, fvar_container);
 
 	uintptr_t hash = 0xCBF29CE484222325;
-	
+
 	const char* cstr = fvar.c_str();
 	size_t size = fvar.size();
-	
+
 	for (size_t i = 0; i < size; i++)
 		hash = 0x100000001B3 * ((uintptr_t)(uint8_t)cstr[i] ^ hash);
 
 	uintptr_t index = (hash & read<uintptr_t>(proc, map + 0x30)) << 4;
-	
+
 	uintptr_t container = read<uintptr_t>(proc, map + 0x18);
 
 	uintptr_t entry = read<uintptr_t>(proc, container + 0x8 + index);
 
 	uintptr_t end = read<uintptr_t>(proc, map + 0x8);
 
-	if (entry == end) 
+	if (entry == end)
 		return nullptr;
 
 	end = read<uintptr_t>(proc, container + index);
@@ -343,7 +343,10 @@ FVarDescriptor* lookup_entry(HANDLE proc, uintptr_t fvar_container, std::string 
 		}
 
 		if (entry == end) 
+		{
+			free(buffer);
 			return nullptr;
+		}
 
 		entry = *(uintptr_t*)(entry_data + 0x8);
 	}
@@ -442,7 +445,7 @@ int main(int argc, const char** argv)
 		fseek(file, 0, SEEK_END);
 		uint32_t size = ftell(file);
 		fseek(file, 0, SEEK_SET);
-		
+
 		char* buffer = (char*)malloc(size);
 		rapidjson::FileReadStream file_stream(file, buffer, size);
 
@@ -467,7 +470,7 @@ int main(int argc, const char** argv)
 
 			close_roblox_processes();
 
-			Sleep(10000);
+			Sleep(3333);
 		}
 
 		return 0;
@@ -482,7 +485,7 @@ int main(int argc, const char** argv)
 		printf("enter value: ");
 		std::string value;
 		std::cin >> value;
-		
+
 		refresh_roblox_processes();
 		set_fvariable_for_all_processes(fix_fvar_name(fvar), value);
 		close_roblox_processes();
